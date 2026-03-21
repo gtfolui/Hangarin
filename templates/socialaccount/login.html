@@ -90,7 +90,8 @@
       <strong>{{ provider.name }}</strong> account. Click Continue to proceed.
     </p>
 
-    <form method="post" action="{% url 'socialaccount_login' provider.id %}">
+    <!-- ← FIXED: use request.path instead of socialaccount_login url -->
+    <form method="post" action="{{ request.path }}">
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next }}" />
       <button type="submit" class="btn-continue">
