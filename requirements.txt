@@ -1,4 +1,5 @@
 asgiref==3.11.1
+<<<<<<< HEAD
 blinker==1.9.0
 certifi==2026.2.25
 cffi==2.0.0
@@ -22,3 +23,10 @@ sqlparse==0.5.5
 tzdata==2025.3
 urllib3==2.6.3
 Werkzeug==3.1.6
+=======
+Django==6.0.2
+Faker==40.4.0
+python-dotenv==1.2.1
+sqlparse==0.5.5
+tzdata==2025.3
+>>>>>>> aedb3a2838c1fdb285cbd9dd3451374f5acc4beb
