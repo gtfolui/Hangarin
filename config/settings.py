@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-3njwj__&$r&s4#d%$jd*&bjte-%9kr_8)q6-fzo)4=p%z6v0hw
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'gtfolui.pythonanywhere.com']  # ← MODIFIED
+ALLOWED_HOSTS = ['127.0.0.1', 'gtfolui.pythonanywhere.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -78,7 +78,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # ← ADDED
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # ── Auth settings ──────────────────────────────
 SITE_ID = 1
@@ -96,14 +96,15 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_LOGIN_METHODS = {'username'}
 ACCOUNT_SIGNUP_FIELDS = ['username*', 'password1*', 'password2*']
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'   # ← ADDED
-SOCIALACCOUNT_EMAIL_REQUIRED = False        # ← ADDED
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_EMAIL_REQUIRED = False
+SOCIALACCOUNT_LOGIN_ON_GET = True            # ← ADDED
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
-        'OAUTH_PKCE_ENABLED': True,         # ← ADDED
+        'OAUTH_PKCE_ENABLED': True,
     },
     'github': {
         'SCOPE': ['user', 'repo'],
