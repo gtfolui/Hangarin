@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header">
+  <h1><i class="fas fa-tasks me-2 text-primary"></i>My Tasks</h1>
+  <a href="{% url 'task-add' %}" class="btn btn-primary">
+    <i class="fas fa-plus me-1"></i> Add New Task
+  </a>
+</div>
+
+<!-- Stat Cards -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3 col-6">
+    <div class="card stat-card blue">
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <div class="stat-label">Tasks</div>
+          <div class="stat-value">{{ total_tasks }}</div>
+        </div>
+        <div class="stat-icon" style="background:#eef0fe;">
+          <i class="fas fa-list text-primary"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card stat-card green">
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <div class="stat-label">Tasks Today</div>
+          <div class="stat-value">{{ tasks_today }}</div>
+        </div>
+        <div class="stat-icon" style="background:#e6fff2;">
+          <i class="fas fa-calendar-day" style="color:#00c851;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card stat-card orange">
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <div class="stat-label">Tasks This Week</div>
+          <div class="stat-value">{{ tasks_this_week }}</div>
+        </div>
+        <div class="stat-icon" style="background:#fff4e5;">
+          <i class="fas fa-calendar-week" style="color:#ff8800;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card stat-card gold">
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <div class="stat-label">Completed Tasks</div>
+          <div class="stat-value">{{ completed_tasks }}</div>
+        </div>
+        <div class="stat-icon" style="background:#fff9e0;">
+          <i class="fas fa-circle-check" style="color:#ffc107;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Task Table Card -->
+<div class="card">
+
+  <!-- Card Header: title + sort + filter toggle -->
+  <div class="card-header d-flex align-items-center justify-content-between py-3 px-4"
+       style="background:#fff; border-bottom:1px solid #f0f2f8; border-radius:14px 14px 0 0;">
+    <span style="font-weight:700; font-size:1rem; color:#1a1f36;">Task List</span>
+    <div class="d-flex gap-2 align-items-center">
+      <select class="form-select form-select-sm" style="width:140px; border-radius:8px; font-size:0.8rem;"
+        onchange="window.location.href='?sort='+this.value">
+        <option value="">Sort By</option>
+        <option value="deadline"  {% if request.GET.sort == 'deadline'  %}selected{% endif %}>Deadline</option>
+        <option value="priority"  {% if request.GET.sort == 'priority'  %}selected{% endif %}>Priority</option>
+        <option value="status"    {% if request.GET.sort == 'status'    %}selected{% endif %}>Status</option>
+        <option value="title"     {% if request.GET.sort == 'title'     %}selected{% endif %}>Title</option>
+      </select>
+      <button class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#filterBar">
+        <i class="fas fa-filter"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Collapsible Filter Bar -->
+  <div class="collapse {% if request.GET.status or request.GET.category or request.GET.priority %}show{% endif %}"
+       id="filterBar">
+    <div class="px-4 py-3 border-bottom" style="background:#f8f9fd;">
+      <form method="GET" class="row g-2 align-items-end">
+        <!-- keep sort value when filtering -->
+        {% if request.GET.sort %}
+          <input type="hidden" name="sort" value="{{ request.GET.sort }}">
+        {% endif %}
+
+        <div class="col-md-3">
+          <label class="form-label mb-1"
+                 style="font-size:0.75rem; font-weight:700; color:#8a8f9d; text-transform:uppercase;">
+            Status
+          </label>
+          <select name="status" class="form-select form-select-sm" style="border-radius:8px;">
+            <option value="">All</option>
+            <option value="Pending"     {% if request.GET.status == 'Pending'     %}selected{% endif %}>Pending</option>
+            <option value="In Progress" {% if request.GET.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+            <option value="Completed"   {% if request.GET.status == 'Completed'   %}selected{% endif %}>Completed</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label mb-1"
+                 style="font-size:0.75rem; font-weight:700; color:#8a8f9d; text-transform:uppercase;">
+            Category
+          </label>
+          <select name="category" class="form-select form-select-sm" style="border-radius:8px;">
+            <option value="">All</option>
+            {% for cat in categories %}
+              <option value="{{ cat.id }}"
+                {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>
+                {{ cat.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label mb-1"
+                 style="font-size:0.75rem; font-weight:700; color:#8a8f9d; text-transform:uppercase;">
+            Priority
+          </label>
+          <select name="priority" class="form-select form-select-sm" style="border-radius:8px;">
+            <option value="">All</option>
+            {% for pri in priorities %}
+              <option value="{{ pri.id }}"
+                {% if request.GET.priority == pri.id|stringformat:"s" %}selected{% endif %}>
+                {{ pri.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-3 d-flex gap-2">
+          <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+          <a href="{% url 'task-list' %}" class="btn btn-outline-secondary btn-sm">Reset</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Task Table -->
+  <div class="table-responsive">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Deadline</th>
+          <th>Status</th>
+          <th>Category</th>
+          <th>Priority</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <td style="font-weight:600; color:#1a1f36;">{{ task.title }}</td>
+          <td>{{ task.deadline|date:"M. j, Y, g:i a" }}</td>
+          <td>
+            {% if task.status == 'Pending' %}
+              <span class="badge-status status-pending">Pending</span>
+            {% elif task.status == 'In Progress' %}
+              <span class="badge-status status-progress">In Progress</span>
+            {% elif task.status == 'Completed' %}
+              <span class="badge-status status-completed">Completed</span>
+            {% else %}
+              <span class="badge-status">{{ task.status }}</span>
+            {% endif %}
+          </td>
+          <td>{{ task.category }}</td>
+          <td>
+            {% with p=task.priority.name|lower %}
+              {% if p == 'critical' %}
+                <span class="badge-status priority-critical">{{ task.priority }}</span>
+              {% elif p == 'high' %}
+                <span class="badge-status priority-high">{{ task.priority }}</span>
+              {% elif p == 'medium' %}
+                <span class="badge-status priority-medium">{{ task.priority }}</span>
+              {% elif p == 'low' %}
+                <span class="badge-status priority-low">{{ task.priority }}</span>
+              {% else %}
+                <span class="badge-status priority-optional">{{ task.priority }}</span>
+              {% endif %}
+            {% endwith %}
+          </td>
+          <td class="text-end">
+            <a href="{% url 'task-view' task.pk %}" class="btn btn-primary btn-sm">View</a>
+            <a href="{% url 'task-delete' task.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center py-5 text-muted">
+            <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+            No tasks found.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {% if is_paginated %}
+  <div class="card-footer border-0 d-flex align-items-center justify-content-between px-4 py-3"
+       style="background:#f8f9fd; border-radius:0 0 14px 14px;">
+    <small class="text-muted">
+      Showing <strong>{{ page_obj.start_index }}</strong>–<strong>{{ page_obj.end_index }}</strong>
+      of <strong>{{ paginator.count }}</strong> tasks
+    </small>
+    <nav>
+      <ul class="pagination pagination-sm mb-0">
+
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">«</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Prev</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">«</span></li>
+          <li class="page-item disabled"><span class="page-link">Prev</span></li>
+        {% endif %}
+
+        {% for num in paginator.page_range %}
+          {% if page_obj.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ num }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">{{ num }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ paginator.num_pages }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">»</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Next</span></li>
+          <li class="page-item disabled"><span class="page-link">»</span></li>
+        {% endif %}
+
+      </ul>
+    </nav>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

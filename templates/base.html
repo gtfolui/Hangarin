@@ -1,0 +1,447 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Hangarin{% endblock %} | Task Manager</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --sidebar-width: 220px;
+      --sidebar-bg: #1a1f36;
+      --sidebar-hover: #2d3561;
+      --sidebar-active: #3d5af1;
+      --topbar-bg: #ffffff;
+      --body-bg: #f4f6fc;
+      --text-muted-custom: #8a8f9d;
+      --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--body-bg);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: var(--sidebar-bg);
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 1000;
+      transition: all 0.3s;
+      overflow-x: hidden;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 16px;
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .sidebar-brand .brand-icon {
+      width: 36px; height: 36px;
+      background: var(--sidebar-active);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: #fff;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 12px 0;
+      margin: 0;
+    }
+
+    .sidebar-menu .menu-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      padding: 14px 20px 6px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 0;
+      transition: all 0.2s;
+      margin: 2px 0;
+    }
+
+    .sidebar-menu a:hover {
+      background: var(--sidebar-hover);
+      color: #fff;
+    }
+
+    .sidebar-menu a.active {
+      background: var(--sidebar-active);
+      color: #fff;
+      border-radius: 0 8px 8px 0;
+      margin-right: 12px;
+    }
+
+    .sidebar-menu a i {
+      width: 20px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    /* ── Main wrapper ── */
+    #main-content {
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+      transition: margin-left 0.3s;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      background: var(--topbar-bg);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e8ecf1;
+      position: sticky; top: 0; z-index: 999;
+    }
+
+    .topbar-search {
+      display: flex;
+      align-items: center;
+      background: #f4f6fc;
+      border-radius: 10px;
+      padding: 8px 14px;
+      gap: 8px;
+      width: 280px;
+    }
+
+    .topbar-search input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 0.875rem;
+      width: 100%;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-right .btn-icon {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: #f4f6fc;
+      color: #555;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .topbar-right .btn-icon:hover { background: #e2e6f0; }
+
+    .avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--sidebar-active);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    /* ── Page content ── */
+    .page-content {
+      padding: 28px 28px;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .page-header h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #1a1f36;
+      margin: 0;
+    }
+
+    /* ── Cards ── */
+    .card {
+      border: none;
+      border-radius: 14px;
+      box-shadow: var(--card-shadow);
+      background: #fff;
+    }
+
+    .stat-card {
+      border-left: 4px solid transparent;
+      padding: 20px 22px;
+    }
+
+    .stat-card.blue  { border-color: #3d5af1; }
+    .stat-card.green { border-color: #00c851; }
+    .stat-card.orange{ border-color: #ff8800; }
+    .stat-card.gold  { border-color: #ffc107; }
+
+    .stat-card .stat-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted-custom);
+    }
+
+    .stat-card .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1a1f36;
+      line-height: 1.2;
+      margin-top: 4px;
+    }
+
+    .stat-card .stat-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    /* ── Table ── */
+    .table thead th {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted-custom);
+      border-bottom: 2px solid #f0f2f8;
+      background: #f8f9fd;
+      padding: 12px 16px;
+    }
+
+    .table tbody td {
+      padding: 13px 16px;
+      font-size: 0.875rem;
+      vertical-align: middle;
+      border-color: #f0f2f8;
+      color: #3a3f5c;
+    }
+
+    .table tbody tr:hover { background: #f8f9fd; }
+
+    /* ── Badges ── */
+    .badge-status {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .status-pending    { background: #fff3cd; color: #856404; }
+    .status-progress   { background: #cce5ff; color: #004085; }
+    .status-completed  { background: #d4edda; color: #155724; }
+
+    /* ── Priority badges ── */
+    .priority-critical { background: #f8d7da; color: #721c24; }
+    .priority-high     { background: #ffe5b4; color: #7a4100; }
+    .priority-medium   { background: #d1ecf1; color: #0c5460; }
+    .priority-low      { background: #e2e3e5; color: #41464b; }
+    .priority-optional { background: #f3e6ff; color: #5b0a91; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: var(--sidebar-active);
+      border-color: var(--sidebar-active);
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .btn-primary:hover {
+      background: #2d45d4;
+      border-color: #2d45d4;
+    }
+
+    .btn-sm { padding: 5px 14px; font-size: 0.8rem; }
+
+    .btn-outline-danger {
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    /* ── Sidebar toggle (mobile) ── */
+    #sidebarToggle {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: #555;
+      cursor: pointer;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      #sidebar { left: calc(-1 * var(--sidebar-width)); }
+      #sidebar.show { left: 0; }
+      #main-content { margin-left: 0; }
+      #sidebarToggle { display: block; }
+    }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <nav id="sidebar">
+    <a href="{% url 'task-list' %}" class="sidebar-brand">
+      <div class="brand-icon"><i class="fas fa-check-double"></i></div>
+      Hangarin
+    </a>
+
+    <ul class="sidebar-menu">
+      <li class="menu-label">Main</li>
+      <li>
+        <a href="{% url 'task-list' %}"
+           class="{% if request.resolver_match.url_name == 'task-list' %}active{% endif %}">
+          <i class="fas fa-tasks"></i> My Tasks
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'subtask-list' %}"
+           class="{% if request.resolver_match.url_name == 'subtask-list' %}active{% endif %}">
+          <i class="fas fa-list-check"></i> Sub Tasks
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'note-list' %}"
+           class="{% if request.resolver_match.url_name == 'note-list' %}active{% endif %}">
+          <i class="fas fa-sticky-note"></i> Notes
+        </a>
+      </li>
+
+      <li class="menu-label">Settings</li>
+      <li>
+        <a href="{% url 'category-list' %}"
+           class="{% if request.resolver_match.url_name == 'category-list' %}active{% endif %}">
+          <i class="fas fa-folder"></i> Categories
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'priority-list' %}"
+           class="{% if request.resolver_match.url_name == 'priority-list' %}active{% endif %}">
+          <i class="fas fa-flag"></i> Priorities
+        </a>
+      </li>
+
+      <li class="menu-label">Quick Actions</li>
+      <li>
+        <a href="{% url 'task-add' %}">
+          <i class="fas fa-plus-circle"></i> Add New Task
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <div id="main-content">
+
+    <!-- Topbar -->
+    <div class="topbar-right">
+        <button class="btn-icon"><i class="fas fa-bell"></i></button>
+
+        <!-- User dropdown with logout -->
+        <div class="dropdown">
+          <div class="avatar dropdown-toggle" data-bs-toggle="dropdown"
+               style="cursor:pointer;" title="{{ request.user.username }}">
+            {{ request.user.username|first|upper }}
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0"
+              style="border-radius:12px; min-width:200px; padding:8px;">
+            <li>
+              <div class="px-3 py-2">
+                <div style="font-weight:700; font-size:0.9rem; color:#1a1f36;">
+                  {{ request.user.username }}
+                </div>
+                <div style="font-size:0.78rem; color:#8a8f9d;">
+                  {{ request.user.email|default:"No email set" }}
+                </div>
+              </div>
+            </li>
+            <li><hr class="dropdown-divider my-1"></li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-2 py-2"
+                 href="{% url 'account_logout' %}"
+                 style="font-size:0.875rem; font-weight:600; color:#dc3545; border-radius:8px;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    <!-- Page Body -->
+    <div class="page-content">
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% block content %}{% endblock %}
+
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Mobile sidebar toggle
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const sidebar   = document.getElementById('sidebar');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
+    }
+  </script>
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>
