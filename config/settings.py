@@ -82,11 +82,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# ── SITE_ID: detect using WSGI file presence ──  ← FIXED
-if os.path.exists('/var/www/gtfolui_pythonanywhere_com_wsgi.py'):
-    SITE_ID = 1  # production
-else:
-    SITE_ID = 2  # local
+SITE_ID = 1  # ← FIXED: hardcoded to 1
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
