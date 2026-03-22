@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-import socket
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -83,9 +82,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# ── SITE_ID: auto-detect local vs deployed ──
-if "pythonanywhere" in socket.gethostname():
-    SITE_ID = 1  # ← FIXED: production is ID 1
+# ── SITE_ID: detect using WSGI file presence ──  ← FIXED
+if os.path.exists('/var/www/gtfolui_pythonanywhere_com_wsgi.py'):
+    SITE_ID = 1  # production
 else:
     SITE_ID = 2  # local
 
