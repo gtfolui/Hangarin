@@ -13,131 +13,161 @@
   </a>
 </div>
 
-<!-- Stat Cards -->
+<!-- ── Colorful Stat Cards ── -->
 <div class="row g-3 mb-4">
+
+  <!-- Purple -->
   <div class="col-md-3 col-6">
-    <div class="card stat-card blue">
-      <div class="d-flex align-items-center justify-content-between">
-        <div>
-          <div class="stat-label">Tasks</div>
-          <div class="stat-value">{{ total_tasks }}</div>
-        </div>
-        <div class="stat-icon" style="background:#eef0fe;">
-          <i class="fas fa-list text-primary"></i>
-        </div>
+    <div class="rounded-3 p-3 position-relative overflow-hidden"
+         style="background:linear-gradient(135deg,#7c5cfc,#a78bfa); color:#fff; min-height:110px;">
+      <div style="font-size:1.6rem; font-weight:800; line-height:1;">
+        {{ total_tasks }}
+      </div>
+      <div style="font-size:0.72rem; font-weight:600; opacity:0.85; margin-top:4px;">Tasks</div>
+      <div style="position:absolute; bottom:10px; left:0; right:0; padding:0 12px;">
+        <svg viewBox="0 0 120 30" width="100%" height="30" preserveAspectRatio="none">
+          <polyline points="0,25 20,18 40,22 60,10 80,15 100,8 120,12"
+            fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="position:absolute; top:12px; right:12px; font-size:1.4rem; opacity:0.2;">
+        <i class="fas fa-tasks"></i>
       </div>
     </div>
   </div>
+
+  <!-- Blue -->
   <div class="col-md-3 col-6">
-    <div class="card stat-card green">
-      <div class="d-flex align-items-center justify-content-between">
-        <div>
-          <div class="stat-label">Tasks Today</div>
-          <div class="stat-value">{{ tasks_today }}</div>
-        </div>
-        <div class="stat-icon" style="background:#e6fff2;">
-          <i class="fas fa-calendar-day" style="color:#00c851;"></i>
-        </div>
+    <div class="rounded-3 p-3 position-relative overflow-hidden"
+         style="background:linear-gradient(135deg,#3b82f6,#60a5fa); color:#fff; min-height:110px;">
+      <div style="font-size:1.6rem; font-weight:800; line-height:1;">
+        {{ tasks_today }}
+      </div>
+      <div style="font-size:0.72rem; font-weight:600; opacity:0.85; margin-top:4px;">Tasks Today</div>
+      <div style="position:absolute; bottom:10px; left:0; right:0; padding:0 12px;">
+        <svg viewBox="0 0 120 30" width="100%" height="30" preserveAspectRatio="none">
+          <polyline points="0,20 20,14 40,18 60,8 80,12 100,6 120,10"
+            fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="position:absolute; top:12px; right:12px; font-size:1.4rem; opacity:0.2;">
+        <i class="fas fa-calendar-day"></i>
       </div>
     </div>
   </div>
+
+  <!-- Yellow/Orange -->
   <div class="col-md-3 col-6">
-    <div class="card stat-card orange">
-      <div class="d-flex align-items-center justify-content-between">
-        <div>
-          <div class="stat-label">Tasks This Week</div>
-          <div class="stat-value">{{ tasks_this_week }}</div>
-        </div>
-        <div class="stat-icon" style="background:#fff4e5;">
-          <i class="fas fa-calendar-week" style="color:#ff8800;"></i>
-        </div>
+    <div class="rounded-3 p-3 position-relative overflow-hidden"
+         style="background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#fff; min-height:110px;">
+      <div style="font-size:1.6rem; font-weight:800; line-height:1;">
+        {{ tasks_this_week }}
+      </div>
+      <div style="font-size:0.72rem; font-weight:600; opacity:0.85; margin-top:4px;">Tasks This Week</div>
+      <div style="position:absolute; bottom:10px; left:0; right:0; padding:0 12px;">
+        <svg viewBox="0 0 120 30" width="100%" height="30" preserveAspectRatio="none">
+          <polyline points="0,15 20,20 40,10 60,18 80,8 100,14 120,6"
+            fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="position:absolute; top:12px; right:12px; font-size:1.4rem; opacity:0.2;">
+        <i class="fas fa-calendar-week"></i>
       </div>
     </div>
   </div>
+
+  <!-- Red/Pink -->
   <div class="col-md-3 col-6">
-    <div class="card stat-card gold">
-      <div class="d-flex align-items-center justify-content-between">
-        <div>
-          <div class="stat-label">Completed Tasks</div>
-          <div class="stat-value">{{ completed_tasks }}</div>
-        </div>
-        <div class="stat-icon" style="background:#fff9e0;">
-          <i class="fas fa-circle-check" style="color:#ffc107;"></i>
-        </div>
+    <div class="rounded-3 p-3 position-relative overflow-hidden"
+         style="background:linear-gradient(135deg,#ef4444,#f87171); color:#fff; min-height:110px;">
+      <div style="font-size:1.6rem; font-weight:800; line-height:1;">
+        {{ completed_tasks }}
+      </div>
+      <div style="font-size:0.72rem; font-weight:600; opacity:0.85; margin-top:4px;">Completed Tasks</div>
+      <div style="position:absolute; bottom:10px; left:0; right:0; padding:0 12px;">
+        <!-- Mini bar chart like the reference -->
+        <svg viewBox="0 0 120 30" width="100%" height="30" preserveAspectRatio="none">
+          {% for h in "151820121622182014" %}{% endfor %}
+          <rect x="5"  y="10" width="8" height="20" rx="2" fill="rgba(255,255,255,0.3)"/>
+          <rect x="18" y="6"  width="8" height="24" rx="2" fill="rgba(255,255,255,0.5)"/>
+          <rect x="31" y="14" width="8" height="16" rx="2" fill="rgba(255,255,255,0.3)"/>
+          <rect x="44" y="4"  width="8" height="26" rx="2" fill="rgba(255,255,255,0.5)"/>
+          <rect x="57" y="12" width="8" height="18" rx="2" fill="rgba(255,255,255,0.3)"/>
+          <rect x="70" y="8"  width="8" height="22" rx="2" fill="rgba(255,255,255,0.5)"/>
+          <rect x="83" y="16" width="8" height="14" rx="2" fill="rgba(255,255,255,0.3)"/>
+          <rect x="96" y="6"  width="8" height="24" rx="2" fill="rgba(255,255,255,0.5)"/>
+          <rect x="109" y="10" width="8" height="20" rx="2" fill="rgba(255,255,255,0.3)"/>
+        </svg>
+      </div>
+      <div style="position:absolute; top:12px; right:12px; font-size:1.4rem; opacity:0.2;">
+        <i class="fas fa-circle-check"></i>
       </div>
     </div>
   </div>
+
 </div>
 
-<!-- ── Chart Card ── -->
-<div class="card mb-4">
-  <div class="card-header d-flex align-items-center justify-content-between py-3 px-4"
-       style="border-bottom:1px solid var(--border); border-radius:14px 14px 0 0;">
+<!-- ── Split Light/Dark Chart Card ── -->
+<div class="card mb-4 overflow-hidden" style="border-radius:16px;">
+  <div class="d-flex align-items-center justify-content-between px-4 pt-4 pb-2">
     <div>
-      <div style="font-weight:700; font-size:1rem; color:var(--text-main);">Task Activity</div>
+      <div style="font-weight:800; font-size:1.1rem; color:var(--text-main);">Task Activity</div>
       <div style="font-size:0.75rem; color:var(--text-muted);">Last 7 days overview</div>
     </div>
-    <div class="d-flex gap-3 align-items-center">
-      <div class="d-flex align-items-center gap-1">
-        <span style="width:10px; height:10px; background:#f59e0b; border-radius:50%; display:inline-block;"></span>
-        <span style="font-size:0.75rem; color:var(--text-muted);">Pending</span>
-      </div>
-      <div class="d-flex align-items-center gap-1">
-        <span style="width:10px; height:10px; background:#7c5cfc; border-radius:50%; display:inline-block;"></span>
-        <span style="font-size:0.75rem; color:var(--text-muted);">In Progress</span>
-      </div>
-      <div class="d-flex align-items-center gap-1">
-        <span style="width:10px; height:10px; background:#16a34a; border-radius:50%; display:inline-block;"></span>
-        <span style="font-size:0.75rem; color:var(--text-muted);">Completed</span>
-      </div>
+    <div class="d-flex gap-2">
+      <button class="px-3 py-1 rounded-2 border-0"
+              style="background:#f0f0f0; font-size:0.78rem; font-weight:600; color:#666;">Day</button>
+      <button class="px-3 py-1 rounded-2 border-0"
+              style="background:#7c5cfc; font-size:0.78rem; font-weight:600; color:#fff;">Week</button>
+      <button class="px-3 py-1 rounded-2 border-0"
+              style="background:#f0f0f0; font-size:0.78rem; font-weight:600; color:#666;">Month</button>
     </div>
   </div>
-  <div class="p-4">
-    <canvas id="taskChart" height="90"></canvas>
+
+  <!-- Split background chart container -->
+  <div style="position:relative;">
+    <!-- Left half light, right half dark -->
+    <div style="position:absolute; top:0; left:0; width:50%; height:100%;
+                background:#ffffff; z-index:0;"></div>
+    <div style="position:absolute; top:0; right:0; width:50%; height:100%;
+                background:#1a1a2e; z-index:0;"></div>
+    <div style="position:relative; z-index:1; padding:16px 24px 8px;">
+      <canvas id="taskChart" height="80"></canvas>
+    </div>
   </div>
-  <div class="px-4 pb-4">
-    <div class="row g-3">
-      <div class="col-md-4">
-        <div class="p-3 rounded-3 text-center"
-             style="background:#fff8e1; border:1px solid #fde68a;">
-          <div style="font-size:0.7rem; font-weight:600; text-transform:uppercase;
-                      letter-spacing:1px; color:#92400e;">Pending</div>
-          <div style="font-size:1.5rem; font-weight:800; color:#f59e0b;">
-            {{ total_tasks }}
-          </div>
-          <div style="font-size:0.75rem; color:#92400e;">total tasks</div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="p-3 rounded-3 text-center"
-             style="background:#ede9fe; border:1px solid #ddd6fe;">
-          <div style="font-size:0.7rem; font-weight:600; text-transform:uppercase;
-                      letter-spacing:1px; color:#5b21b6;">This Week</div>
-          <div style="font-size:1.5rem; font-weight:800; color:#7c5cfc;">
-            {{ tasks_this_week }}
-          </div>
-          <div style="font-size:0.75rem; color:#5b21b6;">tasks this week</div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="p-3 rounded-3 text-center"
-             style="background:#dcfce7; border:1px solid #bbf7d0;">
-          <div style="font-size:0.7rem; font-weight:600; text-transform:uppercase;
-                      letter-spacing:1px; color:#166534;">Completed</div>
-          <div style="font-size:1.5rem; font-weight:800; color:#16a34a;">
-            {{ completed_tasks }}
-          </div>
-          <div style="font-size:0.75rem; color:#166534;">tasks done</div>
-        </div>
-      </div>
+
+  <!-- Bottom stats bar -->
+  <div style="display:flex; border-top:1px solid var(--border);">
+    <div class="text-center py-3 flex-fill" style="border-right:1px solid var(--border);">
+      <div style="font-size:0.7rem; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">Total</div>
+      <div style="font-size:1.1rem; font-weight:800; color:var(--text-main);">{{ total_tasks }}</div>
+      <div style="height:3px; background:#7c5cfc; border-radius:2px; width:40px; margin:4px auto 0;"></div>
+    </div>
+    <div class="text-center py-3 flex-fill" style="border-right:1px solid var(--border);">
+      <div style="font-size:0.7rem; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">Today</div>
+      <div style="font-size:1.1rem; font-weight:800; color:var(--text-main);">{{ tasks_today }}</div>
+      <div style="height:3px; background:#3b82f6; border-radius:2px; width:40px; margin:4px auto 0;"></div>
+    </div>
+    <div class="text-center py-3 flex-fill" style="border-right:1px solid var(--border);">
+      <div style="font-size:0.7rem; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">This Week</div>
+      <div style="font-size:1.1rem; font-weight:800; color:var(--text-main);">{{ tasks_this_week }}</div>
+      <div style="height:3px; background:#f59e0b; border-radius:2px; width:40px; margin:4px auto 0;"></div>
+    </div>
+    <div class="text-center py-3 flex-fill" style="border-right:1px solid var(--border);">
+      <div style="font-size:0.7rem; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">Completed</div>
+      <div style="font-size:1.1rem; font-weight:800; color:var(--text-main);">{{ completed_tasks }}</div>
+      <div style="height:3px; background:#16a34a; border-radius:2px; width:40px; margin:4px auto 0;"></div>
+    </div>
+    <div class="text-center py-3 flex-fill">
+      <div style="font-size:0.7rem; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px;">Pending</div>
+      <div style="font-size:1.1rem; font-weight:800; color:var(--text-main);">{{ tasks_today }}</div>
+      <div style="height:3px; background:#ef4444; border-radius:2px; width:40px; margin:4px auto 0;"></div>
     </div>
   </div>
 </div>
 
 <!-- Task Table Card -->
 <div class="card">
-
-  <!-- Card Header: title + sort + filter toggle -->
   <div class="card-header d-flex align-items-center justify-content-between py-3 px-4"
        style="background:#fff; border-bottom:1px solid #f0f2f8; border-radius:14px 14px 0 0;">
     <span style="font-weight:700; font-size:1rem; color:#1a1f36;">Task List</span>
@@ -164,7 +194,6 @@
         {% if request.GET.sort %}
           <input type="hidden" name="sort" value="{{ request.GET.sort }}">
         {% endif %}
-
         <div class="col-md-3">
           <label class="form-label mb-1"
                  style="font-size:0.75rem; font-weight:700; color:#8a8f9d; text-transform:uppercase;">
@@ -177,7 +206,6 @@
             <option value="Completed"   {% if request.GET.status == 'Completed'   %}selected{% endif %}>Completed</option>
           </select>
         </div>
-
         <div class="col-md-3">
           <label class="form-label mb-1"
                  style="font-size:0.75rem; font-weight:700; color:#8a8f9d; text-transform:uppercase;">
@@ -193,7 +221,6 @@
             {% endfor %}
           </select>
         </div>
-
         <div class="col-md-3">
           <label class="form-label mb-1"
                  style="font-size:0.75rem; font-weight:700; color:#8a8f9d; text-transform:uppercase;">
@@ -209,7 +236,6 @@
             {% endfor %}
           </select>
         </div>
-
         <div class="col-md-3 d-flex gap-2">
           <button type="submit" class="btn btn-primary btn-sm">Apply</button>
           <a href="{% url 'task-list' %}" class="btn btn-outline-secondary btn-sm">Reset</a>
@@ -290,7 +316,6 @@
     </small>
     <nav>
       <ul class="pagination pagination-sm mb-0">
-
         {% if page_obj.has_previous %}
           <li class="page-item">
             <a class="page-link" href="?page=1{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">«</a>
@@ -302,7 +327,6 @@
           <li class="page-item disabled"><span class="page-link">«</span></li>
           <li class="page-item disabled"><span class="page-link">Prev</span></li>
         {% endif %}
-
         {% for num in paginator.page_range %}
           {% if page_obj.number == num %}
             <li class="page-item active"><span class="page-link">{{ num }}</span></li>
@@ -312,7 +336,6 @@
             </li>
           {% endif %}
         {% endfor %}
-
         {% if page_obj.has_next %}
           <li class="page-item">
             <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Next</a>
@@ -324,12 +347,10 @@
           <li class="page-item disabled"><span class="page-link">Next</span></li>
           <li class="page-item disabled"><span class="page-link">»</span></li>
         {% endif %}
-
       </ul>
     </nav>
   </div>
   {% endif %}
-
 </div>
 
 {% endblock %}
@@ -344,6 +365,22 @@
   const progress  = {{ chart_progress|safe }};
   const completed = {{ chart_completed|safe }};
 
+  // Split gradient: left white, right dark
+  const gradientPending = ctx.createLinearGradient(0, 0, ctx.canvas.width, 0);
+  gradientPending.addColorStop(0,   'rgba(245,158,11,0.15)');
+  gradientPending.addColorStop(0.5, 'rgba(245,158,11,0.05)');
+  gradientPending.addColorStop(1,   'rgba(245,158,11,0.0)');
+
+  const gradientProgress = ctx.createLinearGradient(0, 0, ctx.canvas.width, 0);
+  gradientProgress.addColorStop(0,   'rgba(124,92,252,0.15)');
+  gradientProgress.addColorStop(0.5, 'rgba(124,92,252,0.05)');
+  gradientProgress.addColorStop(1,   'rgba(124,92,252,0.0)');
+
+  const gradientCompleted = ctx.createLinearGradient(0, 0, ctx.canvas.width, 0);
+  gradientCompleted.addColorStop(0,   'rgba(22,163,74,0.15)');
+  gradientCompleted.addColorStop(0.5, 'rgba(22,163,74,0.05)');
+  gradientCompleted.addColorStop(1,   'rgba(22,163,74,0.0)');
+
   new Chart(ctx, {
     type: 'line',
     data: {
@@ -353,37 +390,43 @@
           label: 'Pending',
           data: pending,
           borderColor: '#f59e0b',
-          backgroundColor: 'rgba(245,158,11,0.08)',
+          backgroundColor: gradientPending,
           borderWidth: 2.5,
           tension: 0.4,
           fill: true,
           pointBackgroundColor: '#f59e0b',
           pointRadius: 4,
-          pointHoverRadius: 6,
+          pointHoverRadius: 7,
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
         },
         {
           label: 'In Progress',
           data: progress,
           borderColor: '#7c5cfc',
-          backgroundColor: 'rgba(124,92,252,0.08)',
+          backgroundColor: gradientProgress,
           borderWidth: 2.5,
           tension: 0.4,
           fill: true,
           pointBackgroundColor: '#7c5cfc',
           pointRadius: 4,
-          pointHoverRadius: 6,
+          pointHoverRadius: 7,
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
         },
         {
           label: 'Completed',
           data: completed,
           borderColor: '#16a34a',
-          backgroundColor: 'rgba(22,163,74,0.08)',
+          backgroundColor: gradientCompleted,
           borderWidth: 2.5,
           tension: 0.4,
           fill: true,
           pointBackgroundColor: '#16a34a',
           pointRadius: 4,
-          pointHoverRadius: 6,
+          pointHoverRadius: 7,
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
         },
       ]
     },
@@ -393,22 +436,27 @@
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#fff',
-          titleColor: '#1a1a2e',
-          bodyColor: '#8a8fa8',
-          borderColor: '#e8eaf0',
+          backgroundColor: '#1a1a2e',
+          titleColor: '#fff',
+          bodyColor: 'rgba(255,255,255,0.7)',
+          borderColor: '#2a2a3e',
           borderWidth: 1,
           padding: 12,
           cornerRadius: 10,
+          callbacks: {
+            label: function(context) {
+              return ' ' + context.dataset.label + ': ' + context.parsed.y + ' tasks';
+            }
+          }
         }
       },
       scales: {
         x: {
-          grid: { color: '#f0f0f5' },
+          grid: { color: 'rgba(0,0,0,0.05)' },
           ticks: { color: '#8a8fa8', font: { size: 11 } }
         },
         y: {
-          grid: { color: '#f0f0f5' },
+          grid: { color: 'rgba(0,0,0,0.05)' },
           ticks: { color: '#8a8fa8', font: { size: 11 }, stepSize: 1 },
           beginAtZero: true,
         }
