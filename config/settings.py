@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import socket
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -7,7 +8,7 @@ SECRET_KEY = 'django-insecure-3njwj__&$r&s4#d%$jd*&bjte-%9kr_8)q6-fzo)4=p%z6v0hw
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'gtfolui.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'gtfolui.pythonanywhere.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -31,9 +32,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -77,19 +78,31 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-SITE_ID = 1
-
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+# ── SITE_ID: auto-detect local vs deployed ──
+if "pythonanywhere" in socket.gethostname():
+    SITE_ID = 2  # production
+else:
+    SITE_ID = 1  # local
+
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True
 
-ACCOUNT_LOGIN_METHODS = {'username'}
-ACCOUNT_SIGNUP_FIELDS = ['username*', 'password1*', 'password2*']
+ACCOUNT_LOGIN_METHODS = {"username", "email"}
+ACCOUNT_SIGNUP_FIELDS = [
+    "username*",
+    "email*",
+    "password1*",
+    "password2*",
+]
+
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_EMAIL_REQUIRED = False
