@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}My Tasks{% endblock %}
+{% block page_title %}My Tasks{% endblock %}
 
 {% block content %}
-
-{% block page_title %}My Tasks{% endblock %}
 
 <!-- Hero Banner -->
 <div class="hero-banner mb-4">
@@ -70,6 +69,71 @@
   </div>
 </div>
 
+<!-- ── Chart Card ── -->
+<div class="card mb-4">
+  <div class="card-header d-flex align-items-center justify-content-between py-3 px-4"
+       style="border-bottom:1px solid var(--border); border-radius:14px 14px 0 0;">
+    <div>
+      <div style="font-weight:700; font-size:1rem; color:var(--text-main);">Task Activity</div>
+      <div style="font-size:0.75rem; color:var(--text-muted);">Last 7 days overview</div>
+    </div>
+    <div class="d-flex gap-3 align-items-center">
+      <div class="d-flex align-items-center gap-1">
+        <span style="width:10px; height:10px; background:#f59e0b; border-radius:50%; display:inline-block;"></span>
+        <span style="font-size:0.75rem; color:var(--text-muted);">Pending</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <span style="width:10px; height:10px; background:#7c5cfc; border-radius:50%; display:inline-block;"></span>
+        <span style="font-size:0.75rem; color:var(--text-muted);">In Progress</span>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <span style="width:10px; height:10px; background:#16a34a; border-radius:50%; display:inline-block;"></span>
+        <span style="font-size:0.75rem; color:var(--text-muted);">Completed</span>
+      </div>
+    </div>
+  </div>
+  <div class="p-4">
+    <canvas id="taskChart" height="90"></canvas>
+  </div>
+  <div class="px-4 pb-4">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="p-3 rounded-3 text-center"
+             style="background:#fff8e1; border:1px solid #fde68a;">
+          <div style="font-size:0.7rem; font-weight:600; text-transform:uppercase;
+                      letter-spacing:1px; color:#92400e;">Pending</div>
+          <div style="font-size:1.5rem; font-weight:800; color:#f59e0b;">
+            {{ total_tasks }}
+          </div>
+          <div style="font-size:0.75rem; color:#92400e;">total tasks</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 rounded-3 text-center"
+             style="background:#ede9fe; border:1px solid #ddd6fe;">
+          <div style="font-size:0.7rem; font-weight:600; text-transform:uppercase;
+                      letter-spacing:1px; color:#5b21b6;">This Week</div>
+          <div style="font-size:1.5rem; font-weight:800; color:#7c5cfc;">
+            {{ tasks_this_week }}
+          </div>
+          <div style="font-size:0.75rem; color:#5b21b6;">tasks this week</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 rounded-3 text-center"
+             style="background:#dcfce7; border:1px solid #bbf7d0;">
+          <div style="font-size:0.7rem; font-weight:600; text-transform:uppercase;
+                      letter-spacing:1px; color:#166534;">Completed</div>
+          <div style="font-size:1.5rem; font-weight:800; color:#16a34a;">
+            {{ completed_tasks }}
+          </div>
+          <div style="font-size:0.75rem; color:#166534;">tasks done</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Task Table Card -->
 <div class="card">
 
@@ -97,7 +161,6 @@
        id="filterBar">
     <div class="px-4 py-3 border-bottom" style="background:#f8f9fd;">
       <form method="GET" class="row g-2 align-items-end">
-        <!-- keep sort value when filtering -->
         {% if request.GET.sort %}
           <input type="hidden" name="sort" value="{{ request.GET.sort }}">
         {% endif %}
@@ -269,4 +332,88 @@
 
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('taskChart').getContext('2d');
+
+  const labels    = {{ chart_labels|safe }};
+  const pending   = {{ chart_pending|safe }};
+  const progress  = {{ chart_progress|safe }};
+  const completed = {{ chart_completed|safe }};
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Pending',
+          data: pending,
+          borderColor: '#f59e0b',
+          backgroundColor: 'rgba(245,158,11,0.08)',
+          borderWidth: 2.5,
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: '#f59e0b',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+        {
+          label: 'In Progress',
+          data: progress,
+          borderColor: '#7c5cfc',
+          backgroundColor: 'rgba(124,92,252,0.08)',
+          borderWidth: 2.5,
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: '#7c5cfc',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+        {
+          label: 'Completed',
+          data: completed,
+          borderColor: '#16a34a',
+          backgroundColor: 'rgba(22,163,74,0.08)',
+          borderWidth: 2.5,
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: '#16a34a',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#fff',
+          titleColor: '#1a1a2e',
+          bodyColor: '#8a8fa8',
+          borderColor: '#e8eaf0',
+          borderWidth: 1,
+          padding: 12,
+          cornerRadius: 10,
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: '#f0f0f5' },
+          ticks: { color: '#8a8fa8', font: { size: 11 } }
+        },
+        y: {
+          grid: { color: '#f0f0f5' },
+          ticks: { color: '#8a8fa8', font: { size: 11 }, stepSize: 1 },
+          beginAtZero: true,
+        }
+      }
+    }
+  });
+</script>
 {% endblock %}

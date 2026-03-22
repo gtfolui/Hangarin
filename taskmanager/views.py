@@ -6,11 +6,12 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from django.contrib.auth.mixins import LoginRequiredMixin   # ← ADDED
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Q
+import json
 
 from .models import Task, SubTask, Note, Category, Priority
 
@@ -75,6 +76,31 @@ class TaskListView(LoginRequiredMixin, ListView):
                                  ).count()
         ctx['categories']      = Category.objects.all()
         ctx['priorities']      = Priority.objects.all()
+
+        # ── Chart data: tasks per day for last 7 days ──
+        labels         = []
+        pending_data   = []
+        progress_data  = []
+        completed_data = []
+
+        for i in range(6, -1, -1):
+            day = today - timezone.timedelta(days=i)
+            labels.append(day.strftime('%b %d'))
+            pending_data.append(
+                Task.objects.filter(deadline__date=day, status='Pending').count()
+            )
+            progress_data.append(
+                Task.objects.filter(deadline__date=day, status='In Progress').count()
+            )
+            completed_data.append(
+                Task.objects.filter(deadline__date=day, status='Completed').count()
+            )
+
+        ctx['chart_labels']    = json.dumps(labels)
+        ctx['chart_pending']   = json.dumps(pending_data)
+        ctx['chart_progress']  = json.dumps(progress_data)
+        ctx['chart_completed'] = json.dumps(completed_data)
+
         return ctx
 
 
