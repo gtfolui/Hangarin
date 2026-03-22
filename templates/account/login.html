@@ -1,4 +1,3 @@
-{% load socialaccount %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -148,12 +147,12 @@
       {% endfor %}
     {% endif %}
 
-    <!-- ── Social Buttons using provider_login_url from PDF ── -->
-    <a href="{% provider_login_url 'google' %}" class="btn-social">
+    <!-- ← FIXED: use direct URLs instead of provider_login_url -->
+    <a href="/accounts/google/login/" class="btn-social">
       <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="20" height="20"/>
       Continue with Google
     </a>
-    <a href="{% provider_login_url 'github' %}" class="btn-social">
+    <a href="/accounts/github/login/" class="btn-social">
       <i class="fab fa-github" style="font-size:1.1rem;"></i>
       Continue with GitHub
     </a>
