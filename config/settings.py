@@ -85,9 +85,9 @@ AUTHENTICATION_BACKENDS = [
 
 # ── SITE_ID: auto-detect local vs deployed ──
 if "pythonanywhere" in socket.gethostname():
-    SITE_ID = 2  # production
+    SITE_ID = 1  # ← FIXED: production is ID 1
 else:
-    SITE_ID = 1  # local
+    SITE_ID = 2  # local
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
