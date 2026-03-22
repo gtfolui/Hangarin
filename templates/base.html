@@ -7,186 +7,420 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}Hangarin{% endblock %} | Task Manager</title>
 
-  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --sidebar-width: 220px;
-      --sidebar-bg: #1a1f36;
-      --sidebar-hover: #2d3561;
-      --sidebar-active: #3d5af1;
-      --topbar-bg: #ffffff;
-      --body-bg: #f4f6fc;
-      --text-muted-custom: #8a8f9d;
-      --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      --sidebar-bg: #13131f;
+      --sidebar-active: #7c5cfc;
+      --sidebar-hover: #1e1e2e;
+      --body-bg: #0f0f1a;
+      --card-bg: #13131f;
+      --card-bg2: #1a1a2e;
+      --border: #2a2a3e;
+      --text-main: #ffffff;
+      --text-muted: rgba(255,255,255,0.45);
+      --accent: #7c5cfc;
+      --accent2: #fc5c7d;
+      --accent3: #56ccf2;
     }
 
     * { box-sizing: border-box; }
 
     body {
-      font-family: 'Nunito', sans-serif;
-      background-color: var(--body-bg);
-      margin: 0;
-      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--body-bg);
+      color: var(--text-main);
+      margin: 0; padding: 0;
     }
 
     /* ── Sidebar ── */
     #sidebar {
-      width: var(--sidebar-width);
+      width: 220px;
       min-height: 100vh;
       background: var(--sidebar-bg);
       position: fixed;
       top: 0; left: 0;
       z-index: 1000;
-      transition: all 0.3s;
-      overflow-x: hidden;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
     }
 
     .sidebar-brand {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 22px 20px 16px;
+      padding: 24px 20px 20px;
       color: #fff;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
-      letter-spacing: 0.5px;
       text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
+      border-bottom: 1px solid var(--border);
     }
 
     .sidebar-brand .brand-icon {
-      width: 36px; height: 36px;
-      background: var(--sidebar-active);
-      border-radius: 10px;
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .sidebar-section-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 18px 20px 6px;
     }
 
     .sidebar-menu {
       list-style: none;
-      padding: 12px 0;
+      padding: 4px 12px;
       margin: 0;
+      flex: 1;
     }
 
-    .sidebar-menu .menu-label {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      padding: 14px 20px 6px;
-    }
-
-    .sidebar-menu a {
+    .sidebar-menu li a {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 10px 20px;
-      color: rgba(255,255,255,0.7);
+      gap: 10px;
+      padding: 9px 12px;
+      color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 600;
-      border-radius: 0;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 10px;
       transition: all 0.2s;
-      margin: 2px 0;
+      margin-bottom: 2px;
     }
 
-    .sidebar-menu a:hover {
+    .sidebar-menu li a:hover {
       background: var(--sidebar-hover);
       color: #fff;
     }
 
-    .sidebar-menu a.active {
-      background: var(--sidebar-active);
+    .sidebar-menu li a.active {
+      background: var(--accent);
       color: #fff;
-      border-radius: 0 8px 8px 0;
-      margin-right: 12px;
+      font-weight: 600;
     }
 
-    .sidebar-menu a i {
-      width: 20px;
+    .sidebar-menu li a i {
+      width: 18px;
       text-align: center;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
-    /* ── Main wrapper ── */
+    .sidebar-badge {
+      margin-left: auto;
+      background: var(--accent2);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Main Content ── */
     #main-content {
-      margin-left: var(--sidebar-width);
+      margin-left: 220px;
       min-height: 100vh;
-      transition: margin-left 0.3s;
     }
 
     /* ── Topbar ── */
     .topbar {
-      background: var(--topbar-bg);
-      padding: 0 24px;
+      background: var(--sidebar-bg);
+      padding: 0 28px;
       height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #e8ecf1;
+      border-bottom: 1px solid var(--border);
       position: sticky; top: 0; z-index: 999;
+    }
+
+    .topbar-title h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0;
+      line-height: 1;
+    }
+
+    .topbar-title p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin: 2px 0 0;
     }
 
     .topbar-search {
       display: flex;
       align-items: center;
-      background: #f4f6fc;
+      background: #1e1e2e;
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 8px 14px;
       gap: 8px;
-      width: 280px;
+      width: 240px;
     }
 
     .topbar-search input {
       border: none;
       background: transparent;
       outline: none;
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       width: 100%;
-      font-family: 'Nunito', sans-serif;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
     }
+
+    .topbar-search input::placeholder { color: var(--text-muted); }
 
     .topbar-right {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
     }
 
-    .topbar-right .btn-icon {
+    .btn-icon {
       width: 38px; height: 38px;
-      border-radius: 50%;
-      border: none;
-      background: #f4f6fc;
-      color: #555;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #1e1e2e;
+      color: var(--text-muted);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s;
+      position: relative;
     }
 
-    .topbar-right .btn-icon:hover { background: #e2e6f0; }
+    .btn-icon:hover { background: #252535; color: #fff; }
+
+    .btn-icon .badge-dot {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 8px; height: 8px;
+      background: var(--accent2);
+      border-radius: 50%;
+      border: 2px solid var(--sidebar-bg);
+    }
 
     .avatar {
       width: 38px; height: 38px;
-      border-radius: 50%;
-      background: var(--sidebar-active);
+      border-radius: 10px;
+      background: var(--accent);
       color: #fff;
       display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 0.9rem;
       cursor: pointer;
     }
 
-    /* ── Page content ── */
+    /* ── Page Content ── */
     .page-content {
-      padding: 28px 28px;
+      padding: 28px;
     }
 
+    /* ── Hero Banner ── */
+    .hero-banner {
+      background: linear-gradient(135deg, #2d1b69 0%, #7c5cfc 50%, #56ccf2 100%);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      right: -20px; top: -40px;
+      width: 220px; height: 220px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      right: 60px; bottom: -60px;
+      width: 160px; height: 160px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .hero-banner h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .hero-banner p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 16px;
+    }
+
+    .hero-banner .btn-hero {
+      background: #fff;
+      color: var(--accent);
+      border: none;
+      border-radius: 10px;
+      padding: 9px 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      z-index: 1;
+      position: relative;
+    }
+
+    .hero-banner .btn-hero:hover { background: #f0f0ff; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: #fff;
+    }
+
+    .stat-card {
+      padding: 20px;
+      border-radius: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .stat-card .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      margin: 4px 0;
+    }
+
+    .stat-card .stat-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .stat-card.blue  .stat-icon { background: rgba(124,92,252,0.2); color: #7c5cfc; }
+    .stat-card.pink  .stat-icon { background: rgba(252,92,125,0.2); color: #fc5c7d; }
+    .stat-card.cyan  .stat-icon { background: rgba(86,204,242,0.2); color: #56ccf2; }
+    .stat-card.green .stat-icon { background: rgba(39,174,96,0.2);  color: #27ae60; }
+
+    /* ── Table ── */
+    .table {
+      color: #fff;
+    }
+
+    .table thead th {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      padding: 12px 16px;
+    }
+
+    .table tbody td {
+      padding: 13px 16px;
+      font-size: 0.875rem;
+      vertical-align: middle;
+      border-color: var(--border);
+      color: rgba(255,255,255,0.85);
+    }
+
+    .table tbody tr:hover { background: #1e1e2e; }
+    .table tbody tr { border-color: var(--border); }
+
+    /* ── Badges ── */
+    .badge-status {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .status-pending   { background: rgba(255,193,7,0.15);  color: #ffc107; }
+    .status-progress  { background: rgba(86,204,242,0.15); color: #56ccf2; }
+    .status-completed { background: rgba(39,174,96,0.15);  color: #27ae60; }
+
+    .priority-critical { background: rgba(252,92,125,0.15); color: #fc5c7d; }
+    .priority-high     { background: rgba(255,140,0,0.15);  color: #ff8c00; }
+    .priority-medium   { background: rgba(124,92,252,0.15); color: #7c5cfc; }
+    .priority-low      { background: rgba(86,204,242,0.15); color: #56ccf2; }
+    .priority-optional { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: #6a4de8; border-color: #6a4de8; }
+
+    .btn-outline-danger {
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-color: rgba(252,92,125,0.4);
+      color: #fc5c7d;
+    }
+
+    .btn-outline-danger:hover {
+      background: rgba(252,92,125,0.15);
+      border-color: #fc5c7d;
+      color: #fc5c7d;
+    }
+
+    .btn-outline-secondary {
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-color: var(--border);
+      color: var(--text-muted);
+    }
+
+    .btn-outline-secondary:hover {
+      background: #1e1e2e;
+      color: #fff;
+      border-color: #fff;
+    }
+
+    .btn-sm { padding: 5px 14px; font-size: 0.8rem; }
+
+    /* ── Page Header ── */
     .page-header {
       display: flex;
       align-items: center;
@@ -197,126 +431,75 @@
     .page-header h1 {
       font-size: 1.4rem;
       font-weight: 800;
-      color: #1a1f36;
+      color: #fff;
       margin: 0;
     }
 
-    /* ── Cards ── */
-    .card {
-      border: none;
-      border-radius: 14px;
-      box-shadow: var(--card-shadow);
-      background: #fff;
+    /* ── Form controls ── */
+    .form-control, .form-select {
+      background: #1e1e2e;
+      border: 1.5px solid var(--border);
+      color: #fff;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
     }
 
-    .stat-card {
-      border-left: 4px solid transparent;
-      padding: 20px 22px;
+    .form-control:focus, .form-select:focus {
+      background: #1e1e2e;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124,92,252,0.15);
+      color: #fff;
     }
 
-    .stat-card.blue  { border-color: #3d5af1; }
-    .stat-card.green { border-color: #00c851; }
-    .stat-card.orange{ border-color: #ff8800; }
-    .stat-card.gold  { border-color: #ffc107; }
+    .form-control::placeholder { color: var(--text-muted); }
+    .form-select option { background: #1e1e2e; }
 
-    .stat-card .stat-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--text-muted-custom);
-    }
-
-    .stat-card .stat-value {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #1a1f36;
-      line-height: 1.2;
-      margin-top: 4px;
-    }
-
-    .stat-card .stat-icon {
-      width: 48px; height: 48px;
+    /* ── Dropdown ── */
+    .dropdown-menu {
+      background: #1e1e2e;
+      border: 1px solid var(--border);
       border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
     }
 
-    /* ── Table ── */
-    .table thead th {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--text-muted-custom);
-      border-bottom: 2px solid #f0f2f8;
-      background: #f8f9fd;
-      padding: 12px 16px;
-    }
-
-    .table tbody td {
-      padding: 13px 16px;
-      font-size: 0.875rem;
-      vertical-align: middle;
-      border-color: #f0f2f8;
-      color: #3a3f5c;
-    }
-
-    .table tbody tr:hover { background: #f8f9fd; }
-
-    /* ── Badges ── */
-    .badge-status {
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 700;
-    }
-
-    .status-pending    { background: #fff3cd; color: #856404; }
-    .status-progress   { background: #cce5ff; color: #004085; }
-    .status-completed  { background: #d4edda; color: #155724; }
-
-    /* ── Priority badges ── */
-    .priority-critical { background: #f8d7da; color: #721c24; }
-    .priority-high     { background: #ffe5b4; color: #7a4100; }
-    .priority-medium   { background: #d1ecf1; color: #0c5460; }
-    .priority-low      { background: #e2e3e5; color: #41464b; }
-    .priority-optional { background: #f3e6ff; color: #5b0a91; }
-
-    /* ── Buttons ── */
-    .btn-primary {
-      background: var(--sidebar-active);
-      border-color: var(--sidebar-active);
-      border-radius: 8px;
-      font-weight: 700;
+    .dropdown-item {
+      color: rgba(255,255,255,0.8);
       font-size: 0.875rem;
     }
 
-    .btn-primary:hover {
-      background: #2d45d4;
-      border-color: #2d45d4;
+    .dropdown-item:hover {
+      background: #252535;
+      color: #fff;
     }
 
-    .btn-sm { padding: 5px 14px; font-size: 0.8rem; }
+    .dropdown-divider { border-color: var(--border); }
 
-    .btn-outline-danger {
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.8rem;
+    /* ── Alerts ── */
+    .alert-success {
+      background: rgba(39,174,96,0.15);
+      border-color: rgba(39,174,96,0.3);
+      color: #27ae60;
+      border-radius: 10px;
     }
 
-    /* ── Sidebar toggle (mobile) ── */
+    .alert-danger {
+      background: rgba(252,92,125,0.15);
+      border-color: rgba(252,92,125,0.3);
+      color: #fc5c7d;
+      border-radius: 10px;
+    }
+
+    /* ── Mobile ── */
     #sidebarToggle {
       background: none;
       border: none;
+      color: var(--text-muted);
       font-size: 1.2rem;
-      color: #555;
       cursor: pointer;
       display: none;
     }
 
     @media (max-width: 768px) {
-      #sidebar { left: calc(-1 * var(--sidebar-width)); }
+      #sidebar { left: -220px; transition: left 0.3s; }
       #sidebar.show { left: 0; }
       #main-content { margin-left: 0; }
       #sidebarToggle { display: block; }
@@ -334,8 +517,8 @@
       Hangarin
     </a>
 
+    <div class="sidebar-section-label">Main</div>
     <ul class="sidebar-menu">
-      <li class="menu-label">Main</li>
       <li>
         <a href="{% url 'task-list' %}"
            class="{% if request.resolver_match.url_name == 'task-list' %}active{% endif %}">
@@ -354,8 +537,10 @@
           <i class="fas fa-sticky-note"></i> Notes
         </a>
       </li>
+    </ul>
 
-      <li class="menu-label">Settings</li>
+    <div class="sidebar-section-label">Settings</div>
+    <ul class="sidebar-menu">
       <li>
         <a href="{% url 'category-list' %}"
            class="{% if request.resolver_match.url_name == 'category-list' %}active{% endif %}">
@@ -368,58 +553,98 @@
           <i class="fas fa-flag"></i> Priorities
         </a>
       </li>
+    </ul>
 
-      <li class="menu-label">Quick Actions</li>
+    <div class="sidebar-section-label">Quick Actions</div>
+    <ul class="sidebar-menu">
       <li>
         <a href="{% url 'task-add' %}">
           <i class="fas fa-plus-circle"></i> Add New Task
         </a>
       </li>
     </ul>
+
+    <!-- Sidebar Footer: logged in user -->
+    <div class="sidebar-footer">
+      <div class="d-flex align-items-center gap-2">
+        <div style="width:32px; height:32px; background:var(--accent); border-radius:8px;
+                    display:flex; align-items:center; justify-content:center;
+                    font-weight:700; font-size:0.85rem; color:#fff;">
+          {{ request.user.username|first|upper }}
+        </div>
+        <div>
+          <div style="font-size:0.8rem; font-weight:600; color:#fff;">
+            {{ request.user.username }}
+          </div>
+          <div style="font-size:0.7rem; color:var(--text-muted);">
+            {{ request.user.email|default:"No email" }}
+          </div>
+        </div>
+      </div>
+    </div>
   </nav>
 
   <!-- ═══ MAIN CONTENT ═══ -->
   <div id="main-content">
 
     <!-- Topbar -->
-    <div class="topbar-right">
-        <button class="btn-icon"><i class="fas fa-bell"></i></button>
-
-        <!-- User dropdown with logout -->
-        <div class="dropdown">
-          <div class="avatar dropdown-toggle" data-bs-toggle="dropdown"
-               style="cursor:pointer;" title="{{ request.user.username }}">
-            {{ request.user.username|first|upper }}
-          </div>
-          <ul class="dropdown-menu dropdown-menu-end shadow border-0"
-              style="border-radius:12px; min-width:200px; padding:8px;">
-            <li>
-              <div class="px-3 py-2">
-                <div style="font-weight:700; font-size:0.9rem; color:#1a1f36;">
-                  {{ request.user.username }}
-                </div>
-                <div style="font-size:0.78rem; color:#8a8f9d;">
-                  {{ request.user.email|default:"No email set" }}
-                </div>
-              </div>
-            </li>
-            <li><hr class="dropdown-divider my-1"></li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center gap-2 py-2"
-                 href="{% url 'account_logout' %}"
-                 style="font-size:0.875rem; font-weight:600; color:#dc3545; border-radius:8px;">
-                <i class="fas fa-sign-out-alt"></i> Logout
-              </a>
-            </li>
-          </ul>
+    <div class="topbar">
+      <div class="d-flex align-items-center gap-3">
+        <button id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <div class="topbar-title">
+          <p>Hello, {{ request.user.username }} 👋</p>
+          <h1>{% block page_title %}Dashboard{% endblock %}</h1>
         </div>
       </div>
+      <div class="d-flex align-items-center gap-3">
+        <form method="GET" action="{% url 'task-list' %}">
+          <div class="topbar-search">
+            <i class="fas fa-search" style="color:var(--text-muted); font-size:0.8rem;"></i>
+            <input type="text" name="q" placeholder="Search task..."
+                   value="{{ request.GET.q }}">
+          </div>
+        </form>
+        <div class="topbar-right">
+          <div class="btn-icon">
+            <i class="fas fa-bell" style="font-size:0.9rem;"></i>
+            <span class="badge-dot"></span>
+          </div>
+          <div class="dropdown">
+            <div class="avatar dropdown-toggle" data-bs-toggle="dropdown"
+                 style="cursor:pointer;">
+              {{ request.user.username|first|upper }}
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+              <li>
+                <div class="px-3 py-2">
+                  <div style="font-weight:700; font-size:0.875rem; color:#fff;">
+                    {{ request.user.username }}
+                  </div>
+                  <div style="font-size:0.75rem; color:var(--text-muted);">
+                    {{ request.user.email|default:"No email set" }}
+                  </div>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center gap-2 py-2"
+                   href="{% url 'account_logout' %}"
+                   style="color:#fc5c7d;">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Page Body -->
     <div class="page-content">
 
       {% if messages %}
         {% for message in messages %}
-          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-3" role="alert">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
           </div>
@@ -431,10 +656,8 @@
     </div>
   </div>
 
-  <!-- Bootstrap 5 JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Mobile sidebar toggle
     const toggleBtn = document.getElementById('sidebarToggle');
     const sidebar   = document.getElementById('sidebar');
     if (toggleBtn) {
