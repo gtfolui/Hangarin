@@ -16,9 +16,7 @@ import json
 from .models import Task, SubTask, Note, Category, Priority
 
 
-# ═══════════════════════════════════════════════════
-# TASK VIEWS
-# ═══════════════════════════════════════════════════
+
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
@@ -152,7 +150,7 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
 
 # ═══════════════════════════════════════════════════
 # SUBTASK VIEWS
-# ═══════════════════════════════════════════════════
+# ══════════════════════════════════════════════════
 
 class SubTaskListView(LoginRequiredMixin, ListView):
     model = SubTask

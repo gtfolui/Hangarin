@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
     'taskmanager',
+    'pwa',                  # ← ADDED
 ]
 
 MIDDLEWARE = [
@@ -76,6 +77,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # ← ADDED
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -107,3 +109,36 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': ['user', 'repo'],
     },
 }
+
+# ── Progressive Web App Settings ──          # ← ADDED
+PWA_APP_NAME = 'Hangarin'
+PWA_APP_DESCRIPTION = "Hangarin - Your Personal Task Manager"
+PWA_APP_THEME_COLOR = '#7c5cfc'
+PWA_APP_BACKGROUND_COLOR = '#f5f6fa'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'portrait'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/img/icon-192.png',
+        'sizes': '192x192'
+    },
+    {
+        'src': '/static/img/icon-512.png',
+        'sizes': '512x512'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/img/icon-192.png',
+        'sizes': '192x192'
+    },
+    {
+        'src': '/static/img/icon-512.png',
+        'sizes': '512x512'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
